@@ -1,18 +1,90 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import js from '@eslint/js'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+import eslintTailwind from 'eslint-plugin-tailwindcss'
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
+import eslintReact from 'eslint-plugin-react'
+import eslintReactHooks from 'eslint-plugin-react-hooks'
+import eslintReactRefresh from 'eslint-plugin-react-refresh'
+import eslintSimpleSort from 'eslint-plugin-simple-import-sort'
+import prettierPlugin from 'eslint-plugin-prettier'
+import eslintConfigPrettier from 'eslint-config-prettier'
+
+import nextPlugin from '@next/eslint-plugin-next'
+
+import { defineConfig, globalIgnores } from 'eslint/config'
+
+export default defineConfig([
   globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
+    'dist',
+    '.next',
+    'out',
+    'coverage',
+    'node_modules',
   ]),
-]);
 
-export default eslintConfig;
+  {
+    files: ['**/*.{js,cjs,mjs,jsx,ts,tsx}'],
+
+    extends: [
+      js.configs.recommended,
+
+      ...tseslint.configs.recommended,
+
+      nextPlugin.configs.recommended,
+      nextPlugin.configs['core-web-vitals'],
+    ],
+
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2020,
+      },
+      parserOptions: {
+        projectService: true,
+      },
+    },
+
+    plugins: {
+      react: eslintReact,
+      'react-hooks': eslintReactHooks,
+      'react-refresh': eslintReactRefresh,
+      'simple-import-sort': eslintSimpleSort,
+      prettier: prettierPlugin,
+      tailwindcss: eslintTailwind,
+    },
+
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+
+    rules: {
+      ...eslintReact.configs.recommended.rules,
+      ...eslintReactHooks.configs.recommended.rules,
+
+      'react/react-in-jsx-scope': 'off',
+      'react/no-unescaped-entities': 'off',
+
+      ...eslintTailwind.configs['flat/recommended'].rules,
+
+      'tailwindcss/no-contradicting-classname': 'error',
+
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+
+      ...prettierPlugin.configs.recommended.rules,
+      ...eslintConfigPrettier.rules,
+
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+    },
+  },      
+
+])
