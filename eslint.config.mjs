@@ -5,7 +5,6 @@ import eslintTailwind from 'eslint-plugin-tailwindcss'
 
 import eslintReact from 'eslint-plugin-react'
 import eslintReactHooks from 'eslint-plugin-react-hooks'
-import eslintReactRefresh from 'eslint-plugin-react-refresh'
 import eslintSimpleSort from 'eslint-plugin-simple-import-sort'
 import prettierPlugin from 'eslint-plugin-prettier'
 import eslintConfigPrettier from 'eslint-config-prettier'
@@ -49,7 +48,6 @@ export default defineConfig([
     plugins: {
       react: eslintReact,
       'react-hooks': eslintReactHooks,
-      'react-refresh': eslintReactRefresh,
       'simple-import-sort': eslintSimpleSort,
       prettier: prettierPlugin,
       tailwindcss: eslintTailwind,
@@ -71,11 +69,6 @@ export default defineConfig([
       ...eslintTailwind.configs['flat/recommended'].rules,
 
       'tailwindcss/no-contradicting-classname': 'error',
-
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
 
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
