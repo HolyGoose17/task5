@@ -1,7 +1,12 @@
-import { InputAuth } from './types';
+import { InputAuth, InputRegister } from './types';
 
-export const inputsType: InputAuth[] = [
+export const inputsTypeAuth: InputAuth[] = [
   { name: 'username', placeholder: 'User Name', type: 'text' },
   { name: 'password', placeholder: 'Password', type: 'password' },
-  { name: 'password', placeholder: 'Repeat Password', type: 'password' },
+];
+
+export const inputsTypeReg: InputRegister[] = [
+  { name: 'username', placeholder: 'User Name', type: 'text' },
+  { name: 'password', placeholder: 'Password', type: 'password' },
+  { name: 'repeatPassword', placeholder: 'Repeat Password', type: 'password' },
 ];

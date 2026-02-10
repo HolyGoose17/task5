@@ -10,10 +10,9 @@ import { MdOutlineSnippetFolder, MdOutlineTextSnippet } from 'react-icons/md';
 import { logoutAction } from '../actions/auth';
 import { Button } from '../modules/Button';
 import { NavLink } from '../modules/NavLink';
-import { AuthResponse } from '../utils/types';
 
 interface HeaderProps {
-  user: AuthResponse | null;
+  user: boolean | null;
 }
 
 export default function Header({ user }: HeaderProps) {
@@ -51,6 +50,7 @@ export default function Header({ user }: HeaderProps) {
             </>
           ) : (
             <>
+              <p>You was authorized</p>
               <Button size="md" variant="primary" onClick={handleLogout}>
                 Sign Out
               </Button>
@@ -73,7 +73,7 @@ export default function Header({ user }: HeaderProps) {
         `}
       >
         <div className="flex items-center justify-between px-4 h-14 border-b">
-          <span className="font-semibold text-gray-500">{user?.data.username}</span>
+          <p>Menu</p>
           <button
             className="p-2 hover:bg-gray-100 rounded-full text-gray-600 cursor-pointer"
             onClick={() => setDrawerOpen(false)}

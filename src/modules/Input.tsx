@@ -5,10 +5,11 @@ interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, IInputProps>(
-  ({ placeholder, type, error, ...props }, ref) => {
+  ({ name, placeholder, type, error, ...props }, ref) => {
     return (
       <>
         <input
+          name={name}
           {...props}
           ref={ref}
           placeholder={placeholder}
