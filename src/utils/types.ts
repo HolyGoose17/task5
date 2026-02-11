@@ -25,10 +25,6 @@ export const AuthResponseSchema = z.object({
   message: z.string(),
 });
 
-export type AuthResponse = z.infer<typeof AuthResponseSchema>;
-export type AuthForm = z.infer<typeof AuthSchema>;
-export type RegisterForm = z.infer<typeof RegisterSchema>;
-
 export type InputAuth = {
   name: keyof AuthForm;
   placeholder: string;
@@ -41,19 +37,48 @@ export type InputRegister = {
   type: string;
 };
 
-export interface AuthState {
+export type AuthState = {
   error?: string;
   fieldErrors?: {
     username?: string[];
     password?: string[];
   };
-}
+};
 
-export interface RegisterState {
+export type RegisterState = {
   error?: string;
   fieldErrors?: {
     username?: string[];
     password?: string[];
     repeatPassword?: string[];
   };
-}
+};
+
+export const SnippetsSchema = z.object({
+  data: z.object({
+    data: z.array(
+      z.object({
+        id: z.string(),
+        code: z.string(),
+        language: z.string(),
+        marks: z.array(
+          z.object({
+            id: z.string(),
+            type: z.string(),
+            // type: z.enum(['like', 'dislike']),
+            user: z.object({
+              id: z.string(),
+              username: z.string(),
+              role: z.string(),
+            }),
+          })
+        ),
+      })
+    ),
+  }),
+});
+
+export type AuthResponse = z.infer<typeof AuthResponseSchema>;
+export type AuthForm = z.infer<typeof AuthSchema>;
+export type RegisterForm = z.infer<typeof RegisterSchema>;
+export type SnippetsForm = z.infer<typeof SnippetsSchema>;

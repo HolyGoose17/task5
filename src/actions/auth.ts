@@ -3,7 +3,13 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { AuthSchema, AuthState, RegisterSchema, RegisterState } from '@/src/utils/types';
+import {
+  AuthSchema,
+  AuthState,
+  RegisterSchema,
+  RegisterState,
+  SnippetsSchema,
+} from '@/src/utils/types';
 
 // export async function loginAction(data: AuthForm) {
 //   const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
@@ -148,4 +154,11 @@ export async function registerAction(
   }
 
   redirect('/login');
+}
+
+export async function snippetsAction() {
+  const data = await fetch(`${process.env.BACKEND_URL}/api/snippets`);
+  const posts = await data.json();
+  const snippets = SnippetsSchema.safeParse(posts);
+  return snippets;
 }
