@@ -5,6 +5,9 @@ import { snippetsAction } from '@/src/actions/auth';
 
 export default async function MainPage() {
   const snippets = await snippetsAction();
+  const countMarks = snippets.data?.data.data.map((snippet) => {
+    const { likes, dislikes } = snippet.marks.reduce();
+  });
   return (
     <div className="w-full mt-24">
       <div className="flex items-center flex-col gap-6">
