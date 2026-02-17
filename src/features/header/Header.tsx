@@ -2,21 +2,40 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaCode, FaHome, FaRegUserCircle, FaUsers } from 'react-icons/fa';
 import { FcQuestions } from 'react-icons/fc';
 import { IoLanguageSharp } from 'react-icons/io5';
 import { MdOutlineSnippetFolder, MdOutlineTextSnippet } from 'react-icons/md';
 
-import { logoutAction } from '../actions/auth';
-import { Button } from '../modules/Button';
-import { NavLink } from '../modules/NavLink';
+import { logoutAction } from '../../actions/auth';
+import { Button } from '../../shared/Button';
+import { NavLink } from '../../shared/NavLink';
 
 interface HeaderProps {
   user: boolean | null;
 }
 
+const navArray = [
+  { href: '/home', icon: <FaHome />, label: 'Home' },
+  { href: '/account', icon: <FaRegUserCircle />, label: 'My Account' },
+  { href: '/snippets', icon: <MdOutlineSnippetFolder />, label: 'My Snippets' },
+  { href: '/snippets/new', icon: <MdOutlineTextSnippet />, label: 'Post Snippets' },
+  { href: '/questions', icon: <FcQuestions />, label: 'Questions' },
+  { href: '/users', icon: <FaUsers />, label: 'Users' },
+];
+
 export default function Header({ user }: HeaderProps) {
+  const { t, i18n } = useTranslation(undefined, {
+    keyPrefix: 'header',
+  });
+  const [language, setLanguage] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const handleSwitchLanguage = () => {
+    const newLanguage = i18n.language === 'ru' ? 'en' : 'ru';
+    i18n.changeLanguage(newLanguage);
+    setLanguage(!language);
+  };
 
   const handleLogout = async () => {
     await logoutAction();
@@ -41,25 +60,27 @@ export default function Header({ user }: HeaderProps) {
         <div className="flex gap-4 items-center">
           {!user ? (
             <>
-              <div className="hidden sm:block">Not authorized</div>
+              <div className="hidden sm:block">{t('notAuthorized')}</div>
               <Link href="/login">
                 <Button size="md" variant="primary">
-                  Sign in
+                  {t('signIn')}
                 </Button>
               </Link>
             </>
           ) : (
             <>
-              <p>You was authorized</p>
+              <p>{t('authorized')}</p>
               <Button size="md" variant="primary" onClick={handleLogout}>
-                Sign Out
+                {t('signOut')}
               </Button>
             </>
           )}
-
-          <div className="flex items-center gap-1 cursor-pointer hover:opacity-80">
+          <div
+            onClick={handleSwitchLanguage}
+            className="flex items-center gap-1 cursor-pointer hover:opacity-80"
+          >
             <IoLanguageSharp className="w-6 h-6" />
-            <span>EN</span>
+            <span>{language ? 'EN' : 'RU'}</span>
           </div>
         </div>
       </header>
@@ -73,7 +94,7 @@ export default function Header({ user }: HeaderProps) {
         `}
       >
         <div className="flex items-center justify-between px-4 h-14 border-b">
-          <p>Menu</p>
+          <p>{t('menu')}</p>
           <button
             className="p-2 hover:bg-gray-100 rounded-full text-gray-600 cursor-pointer"
             onClick={() => setDrawerOpen(false)}
@@ -83,42 +104,15 @@ export default function Header({ user }: HeaderProps) {
         </div>
 
         <nav className="flex flex-col py-4">
-          <NavLink
-            href="/home"
-            icon={<FaHome />}
-            label="Home"
-            onClick={() => setDrawerOpen(false)}
-          />
-          <NavLink
-            href="/account"
-            icon={<FaRegUserCircle />}
-            label="My Account"
-            onClick={() => setDrawerOpen(false)}
-          />
-          <NavLink
-            href="/snippets/new"
-            icon={<MdOutlineTextSnippet />}
-            label="Post Snippets"
-            onClick={() => setDrawerOpen(false)}
-          />
-          <NavLink
-            href="/snippets"
-            icon={<MdOutlineSnippetFolder />}
-            label="My Snippets"
-            onClick={() => setDrawerOpen(false)}
-          />
-          <NavLink
-            href="/questions"
-            icon={<FcQuestions />}
-            label="Questions"
-            onClick={() => setDrawerOpen(false)}
-          />
-          <NavLink
-            href="/users"
-            icon={<FaUsers />}
-            label="Users"
-            onClick={() => setDrawerOpen(false)}
-          />
+          {navArray.map((page) => (
+            <NavLink
+              key={page.href}
+              href={page.href}
+              icon={page.icon}
+              label={page.label}
+              onClick={() => setDrawerOpen(false)}
+            />
+          ))}
         </nav>
       </aside>
 

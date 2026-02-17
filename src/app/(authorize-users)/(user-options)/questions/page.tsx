@@ -1,4 +1,4 @@
-const questions = () => {
+const QuestionPage = () => {
   return (
     <>
       <div className="pt-52 text-center">Welcome in questions page</div>
@@ -6,4 +6,4 @@ const questions = () => {
   );
 };
 
-export default questions;
+export default QuestionPage;

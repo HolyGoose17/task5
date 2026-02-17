@@ -1,0 +1,19 @@
+{
+  "header": {
+    "home": "Home",
+    "account": "My Account",
+    "mySnippets": "My Snippets",
+    "postSnippet": "Post Snippets",
+    "questions": "Questions",
+    "users": "Users",
+    "notAuthorized": "Not authorized",
+    "signIn": "Sign in",
+    "authorized": "You are authorized",
+    "signOut": "Sign Out",
+    "menu": "Menu",
+    "authorization": "Authorization",
+    "registration": "Registration",
+    "swapAuthReg": "Don't have an account?",
+    "swapRegAuth": "Back to authorize"
+  }
+}

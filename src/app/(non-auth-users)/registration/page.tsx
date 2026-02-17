@@ -1,10 +1,10 @@
 'use server';
 
-import RegistrationForm from '@/src/components/pages/RegistrationForm';
+import RegistrationForm from '@/src/features/auth/RegistrationForm';
 
 export default async function RegistrationPage() {
   return (
-    <main>
+    <main className="flex flex-col items-center">
       <RegistrationForm />
     </main>
   );

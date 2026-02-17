@@ -1,4 +1,4 @@
-const mySnippets = () => {
+const MySnippets = () => {
   return (
     <>
       <div className="pt-52 text-center">Welcome in yours snippets page</div>
@@ -6,4 +6,4 @@ const mySnippets = () => {
   );
 };
 
-export default mySnippets;
+export default MySnippets;

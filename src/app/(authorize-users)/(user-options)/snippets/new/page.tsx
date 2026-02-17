@@ -1,4 +1,4 @@
-const postSnippets = () => {
+const PostSnippets = () => {
   return (
     <>
       <div className="pt-52 text-center">Welcome in post snippets page</div>
@@ -6,4 +6,4 @@ const postSnippets = () => {
   );
 };
 
-export default postSnippets;
+export default PostSnippets;

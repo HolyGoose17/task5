@@ -1,0 +1,19 @@
+{
+  "header": {
+    "home": "Главная",
+    "account": "Мой аккаунт",
+    "mySnippets": "Мои сниппеты",
+    "postSnippet": "Создать сниппет",
+    "questions": "Вопросы",
+    "users": "Пользователи",
+    "notAuthorized": "Вы не авторизованы",
+    "signIn": "Войти",
+    "authorized": "Вы авторизованы",
+    "signOut": "Выйти",
+    "menu": "Меню",
+    "authorization": "Авторизация",
+    "registration": "Регистрация",
+    "swapAuthReg": "У Вас нет аккаунта?",
+    "swapRegAuth": "Вернуться для авторизации"
+  }
+}

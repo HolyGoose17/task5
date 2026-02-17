@@ -8,7 +8,12 @@ export const AuthSchema = z.object({
 export const RegisterSchema = z
   .object({
     username: z.string().min(5, 'Minimum 5 symbols').max(40, 'Maximum 40 symbols'),
-    password: z.string().min(6, 'Minimum 6 symbols').max(40, 'Maximum 40 symbols'),
+    password: z
+      .string()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/,
+        'Password must contain at least one lowercase letter, one uppercase letter, one number and one symbol!'
+      ),
     repeatPassword: z.string(),
   })
   .refine((data) => data.password === data.repeatPassword, {
@@ -16,44 +21,24 @@ export const RegisterSchema = z
     path: ['repeatPassword'],
   });
 
-export const AuthResponseSchema = z.object({
-  data: z.object({
-    id: z.string(),
-    username: z.string(),
-    role: z.string(),
-  }),
-  message: z.string(),
-});
-
-export type AuthResponse = z.infer<typeof AuthResponseSchema>;
-export type AuthForm = z.infer<typeof AuthSchema>;
-export type RegisterForm = z.infer<typeof RegisterSchema>;
-
-export type InputAuth = {
-  name: keyof AuthForm;
-  placeholder: string;
-  type: string;
+export type RegisterFormType = {
+  username: string;
+  password: string;
+  repeatPassword: string;
 };
 
-export type InputRegister = {
-  name: keyof RegisterForm;
-  placeholder: string;
-  type: string;
+export type AuthResponse = {
+  data: {
+    username: string;
+    role: string;
+    id: string;
+  };
+  message: string;
 };
 
-export interface AuthState {
-  error?: string;
-  fieldErrors?: {
-    username?: string[];
-    password?: string[];
-  };
-}
-
-export interface RegisterState {
-  error?: string;
-  fieldErrors?: {
-    username?: string[];
-    password?: string[];
-    repeatPassword?: string[];
-  };
-}
+export type RegisterType = z.infer<typeof RegisterSchema>;
+export type RegisterActionState = {
+  auth?: AuthResponse;
+  errors?: Partial<Record<keyof RegisterFormType, string>>;
+  success?: boolean;
+};

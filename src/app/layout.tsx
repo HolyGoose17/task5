@@ -1,11 +1,13 @@
 import './globals.css';
+import '../utils/i18n';
 
 import type { Metadata } from 'next';
 import { Playfair_Display } from 'next/font/google';
 import { ReactNode } from 'react';
 
 import { getSession } from '../actions/auth';
-import Header from '../components/Header';
+import Header from '../features/header/Header';
+import I18nProvider from '../shared/providers/I18nProvider';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -26,8 +28,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={playfairDisplay.className}>
-        <Header user={user} />
-        {children}
+        <I18nProvider>
+          <Header user={user} />
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );

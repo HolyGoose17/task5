@@ -2,8 +2,23 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import z from 'zod';
 
-import { AuthSchema, AuthState, RegisterSchema, RegisterState } from '@/src/utils/types';
+import {
+  AuthResponse,
+  AuthSchema,
+  RegisterActionState,
+  RegisterFormType,
+  RegisterSchema,
+} from '@/src/utils/types';
+
+type AuthState = {
+  error?: string;
+  fieldErrors?: {
+    username?: string[];
+    password?: string[];
+  };
+};
 
 // export async function loginAction(data: AuthForm) {
 //   const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
@@ -46,7 +61,7 @@ import { AuthSchema, AuthState, RegisterSchema, RegisterState } from '@/src/util
 //   redirect('/home');
 // }
 
-export async function testAction(_prevState: AuthState, formData: FormData): Promise<AuthState> {
+export async function testAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
   const rawData = {
     username: formData.get('username'),
     password: formData.get('password'),
@@ -55,9 +70,10 @@ export async function testAction(_prevState: AuthState, formData: FormData): Pro
   const parsed = AuthSchema.safeParse(rawData);
 
   if (!parsed.success) {
+    const flattenError = z.flattenError(parsed.error);
     return {
-      error: 'Проверьте правильность введенных данных',
-      fieldErrors: parsed.error.flatten().fieldErrors,
+      error: '',
+      fieldErrors: flattenError.fieldErrors,
     };
   }
 
@@ -67,6 +83,12 @@ export async function testAction(_prevState: AuthState, formData: FormData): Pro
     body: JSON.stringify(parsed.data),
     cache: 'no-store',
   });
+
+  if (!response.ok) {
+    return {
+      error: 'Invalidate login or password',
+    };
+  }
 
   const getCookie = response.headers.get('set-cookie');
   const cookieStore = await cookies();
@@ -101,51 +123,43 @@ export async function getSession() {
   }
 }
 
-// export async function registerAction({ username, password }: AuthForm) {
-//   const res = await fetch(`${process.env.BACKEND_URL}/api/register`, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     credentials: 'include',
-//     body: JSON.stringify({ username, password }),
-//     cache: 'no-store',
-//   });
-
-//   if (!res.ok) {
-//     const errorText = await res.text();
-//     console.error('Backend Error:', errorText);
-//     throw new Error(`Server responded with ${res.status}`);
-//   }
-
-//   const data: AuthResponse = await res.json();
-//   return data;
-// }
-
-export async function registerAction(
-  _prevState: RegisterState,
+export async function registerUser(
+  prevState: RegisterActionState,
   formData: FormData
-): Promise<RegisterState> {
-  const rawData = {
+): Promise<RegisterActionState> {
+  const validated = RegisterSchema.safeParse({
     username: formData.get('username'),
     password: formData.get('password'),
     repeatPassword: formData.get('repeatPassword'),
-  };
-
-  const parsed = RegisterSchema.safeParse(rawData);
-
-  if (!parsed.success) {
-    return { error: 'Validation error on server' };
-  }
-
-  const res = await fetch(`${process.env.BACKEND_URL}/api/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(parsed.data),
-    credentials: 'include',
   });
 
-  if (!res.ok) {
-    return { error: 'Backend error' };
+  if (!validated.success) {
+    const errors: RegisterActionState['errors'] = {};
+
+    validated.error.issues.forEach((issue) => {
+      errors![issue.path[0] as keyof RegisterFormType] = issue.message;
+    });
+
+    return { errors };
+  }
+  const response = await fetch(`${process.env.BACKEND_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: validated.data.username,
+      password: validated.data.password,
+    }),
+  });
+
+  if (!response.ok) {
+    return {
+      errors: {
+        username: 'Registration failed',
+      },
+    };
   }
 
-  redirect('/login');
+  const auth: AuthResponse = await response.json();
+
+  return { auth };
 }

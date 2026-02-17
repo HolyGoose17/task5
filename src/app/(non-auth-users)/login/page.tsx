@@ -1,5 +1,5 @@
 'use server';
-import AuthForm from '@/src/components/pages/AuthForm';
+import AuthForm from '@/src/features/auth/AuthForm';
 
 export default async function AuthorizationPage() {
   return (

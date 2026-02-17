@@ -7,10 +7,14 @@ export function proxy(request: NextRequest) {
 
   const publicRoutes = ['/login', '/registration'];
 
-  const isProtectedRoute = publicRoutes.includes(currentPath);
+  const isOnlyPublicRoute = publicRoutes.includes(currentPath);
 
-  if (!session && !isProtectedRoute) {
+  if (!session && !isOnlyPublicRoute) {
     return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  if (session && isOnlyPublicRoute) {
+    return NextResponse.redirect(new URL('/home', request.url));
   }
 
   return NextResponse.next();

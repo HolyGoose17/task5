@@ -1,11 +1,27 @@
 'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useActionState } from 'react';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
 
 import { testAction } from '@/src/actions/auth';
-import { Button } from '@/src/modules/Button';
-import { Input } from '@/src/modules/Input';
-import { inputsTypeAuth } from '@/src/utils/constants';
+import { Button } from '@/src/shared/Button';
+import { Input } from '@/src/shared/Input';
+import { AuthSchema } from '@/src/utils/types';
+
+type AuthFormType = z.infer<typeof AuthSchema>;
+
+type InputAuth = {
+  name: keyof AuthFormType;
+  placeholder: string;
+  type: string;
+};
+
+const inputsTypeAuth: InputAuth[] = [
+  { name: 'username', placeholder: 'User Name', type: 'text' },
+  { name: 'password', placeholder: 'Password', type: 'password' },
+];
 
 const initialState = {
   error: undefined,
@@ -30,6 +46,7 @@ function AuthForm() {
               error={state.fieldErrors?.[name]?.[0]}
               disabled={isPending}
             />
+            // тут отображается ошибка валидации данного поля
           ))}
 
           {state.error && (

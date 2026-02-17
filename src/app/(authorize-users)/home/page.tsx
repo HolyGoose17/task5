@@ -1,6 +1,6 @@
 'use client';
 
-const MainPage = () => {
+const HomePage = () => {
   return (
     <>
       <div className="pt-52 text-center">
@@ -10,4 +10,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default HomePage;
