@@ -14,6 +14,18 @@
     "authorization": "Authorization",
     "registration": "Registration",
     "swapAuthReg": "Don't have an account?",
-    "swapRegAuth": "Back to authorize"
+    "swapRegAuth": "Back to authorize",
+    "helloHomePage": "Welcome to main page",
+    "helloUsersPage": "Welcome in users page",
+    "helloSnippetsPage": "Welcome in yours snippets page",
+    "helloAddSnippetsPage": "Welcome in post snippets page",
+    "helloQuestionsPage": "Welcome in questions page",
+    "helloAccountPage": "Welcome in account page",
+    "asideTagHome": "Home",
+    "asideTagAccount": "My Account",
+    "asideTagMySnippets": "My Snippets",
+    "asideTagPostSnippets": "Post Snippets",
+    "asideTagQuestion": "Questions",
+    "asideTagUsers": "Users"
   }
 }

@@ -1,7 +1,14 @@
+'use client';
+
+import { useTranslation } from 'react-i18next';
+
 const QuestionPage = () => {
+  const { t } = useTranslation(undefined, {
+    keyPrefix: 'header',
+  });
   return (
     <>
-      <div className="pt-52 text-center">Welcome in questions page</div>
+      <div className="pt-52 text-center">{t('helloQuestionsPage')}</div>
     </>
   );
 };

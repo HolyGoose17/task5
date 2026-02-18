@@ -16,19 +16,19 @@ interface HeaderProps {
   user: boolean | null;
 }
 
-const navArray = [
-  { href: '/home', icon: <FaHome />, label: 'Home' },
-  { href: '/account', icon: <FaRegUserCircle />, label: 'My Account' },
-  { href: '/snippets', icon: <MdOutlineSnippetFolder />, label: 'My Snippets' },
-  { href: '/snippets/new', icon: <MdOutlineTextSnippet />, label: 'Post Snippets' },
-  { href: '/questions', icon: <FcQuestions />, label: 'Questions' },
-  { href: '/users', icon: <FaUsers />, label: 'Users' },
-];
-
 export default function Header({ user }: HeaderProps) {
   const { t, i18n } = useTranslation(undefined, {
     keyPrefix: 'header',
   });
+  const navArray = [
+    { href: '/home', icon: <FaHome />, label: t('asideTagHome') },
+    { href: '/account', icon: <FaRegUserCircle />, label: t('asideTagAccount') },
+    { href: '/snippets', icon: <MdOutlineSnippetFolder />, label: t('asideTagMySnippets') },
+    { href: '/snippets/new', icon: <MdOutlineTextSnippet />, label: t('asideTagPostSnippets') },
+    { href: '/questions', icon: <FcQuestions />, label: t('asideTagQuestion') },
+    { href: '/users', icon: <FaUsers />, label: t('asideTagUsers') },
+  ];
+
   const [language, setLanguage] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleSwitchLanguage = () => {

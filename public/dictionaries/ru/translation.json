@@ -14,6 +14,18 @@
     "authorization": "Авторизация",
     "registration": "Регистрация",
     "swapAuthReg": "У Вас нет аккаунта?",
-    "swapRegAuth": "Вернуться для авторизации"
+    "swapRegAuth": "Вернуться для авторизации",
+    "helloHomePage": "Добро пожаловать на главную страницу",
+    "helloUsersPage": "Добро пожаловать на страницу пользователей",
+    "helloSnippetsPage": "Добро пожаловать на страницу Ваших постов",
+    "helloAddSnippetsPage": "Добро пожаловать на страницу всех постов",
+    "helloQuestionsPage": "Добро пожаловать на страницу с вопросами",
+    "helloAccountPage": "Добро пожаловать на страницу Ваашего аккаунта",
+    "asideTagHome": "Лента постов",
+    "asideTagAccount": "Мой аккаунт",
+    "asideTagMySnippets": "Мои посты",
+    "asideTagPostSnippets": "Создать пост",
+    "asideTagQuestion": "Вопросы",
+    "asideTagUsers": "Пользователи"
   }
 }
