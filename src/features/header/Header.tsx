@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaCode, FaHome, FaRegUserCircle, FaUsers } from 'react-icons/fa';
@@ -17,24 +18,33 @@ interface HeaderProps {
 }
 
 export default function Header({ user }: HeaderProps) {
-  const { t, i18n } = useTranslation(undefined, {
-    keyPrefix: 'header',
-  });
+  const { t } = useTranslation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const navArray = [
-    { href: '/home', icon: <FaHome />, label: t('asideTagHome') },
+    { href: '/', icon: <FaHome />, label: t('asideTagHome') },
     { href: '/account', icon: <FaRegUserCircle />, label: t('asideTagAccount') },
     { href: '/snippets', icon: <MdOutlineSnippetFolder />, label: t('asideTagMySnippets') },
-    { href: '/snippets/new', icon: <MdOutlineTextSnippet />, label: t('asideTagPostSnippets') },
+    {
+      href: '/snippets/new',
+      icon: <MdOutlineTextSnippet />,
+      label: t('asideTagPostSnippets'),
+    },
     { href: '/questions', icon: <FcQuestions />, label: t('asideTagQuestion') },
     { href: '/users', icon: <FaUsers />, label: t('asideTagUsers') },
   ];
 
-  const [language, setLanguage] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const lang = pathname.split('/')[1];
+
   const handleSwitchLanguage = () => {
-    const newLanguage = i18n.language === 'ru' ? 'en' : 'ru';
-    i18n.changeLanguage(newLanguage);
-    setLanguage(!language);
+    const segments = pathname.split('/').filter(Boolean);
+    const currentLang = segments[0];
+    const newLang = currentLang === 'ru' ? 'en' : 'ru';
+
+    segments[0] = newLang;
+    router.push('/' + segments.join('/'));
   };
 
   const handleLogout = async () => {
@@ -52,7 +62,7 @@ export default function Header({ user }: HeaderProps) {
             <FaCode className="w-6 h-6" />
           </button>
 
-          <Link href="/home" className="font-bold text-lg">
+          <Link href={`/${lang}`} className="font-bold text-lg">
             CODELANG
           </Link>
         </div>
@@ -61,7 +71,7 @@ export default function Header({ user }: HeaderProps) {
           {!user ? (
             <>
               <div className="hidden sm:block">{t('notAuthorized')}</div>
-              <Link href="/login">
+              <Link href={`/${lang}/login`}>
                 <Button size="md" variant="primary">
                   {t('signIn')}
                 </Button>
@@ -80,7 +90,7 @@ export default function Header({ user }: HeaderProps) {
             className="flex items-center gap-1 cursor-pointer hover:opacity-80"
           >
             <IoLanguageSharp className="w-6 h-6" />
-            <span>{language ? 'EN' : 'RU'}</span>
+            <span>{t('language')}</span>
           </div>
         </div>
       </header>

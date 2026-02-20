@@ -7,17 +7,12 @@ import { useForm } from 'react-hook-form';
 import { registerUser } from '@/src/actions/auth';
 import { Button } from '@/src/shared/Button';
 import { Input } from '@/src/shared/Input';
-import {
-  RegisterActionState,
-  RegisterFormType,
-  RegisterSchema,
-  RegisterType,
-} from '@/src/utils/types';
+import { RegisterActionState, RegisterForm, RegisterSchema } from '@/src/utils/types';
 
 const initialState: RegisterActionState = {};
 
 type InputRegister = {
-  name: keyof RegisterType;
+  name: keyof RegisterForm;
   placeholder: string;
   type: string;
 };
@@ -34,22 +29,12 @@ export default function RegistrationForm() {
     initialState
   );
 
-  const form = useForm<RegisterFormType>({
+  const form = useForm<RegisterForm>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: { username: '', password: '', repeatPassword: '' },
   });
 
-  useEffect(() => {
-    if (state?.errors) {
-      Object.entries(state.errors).forEach(([key, message]) => {
-        if (message) {
-          form.setError(key as keyof RegisterFormType, { message, type: 'server' });
-        }
-      });
-    }
-  }, [state, form]);
-
-  const onSubmit = (data: RegisterFormType) => {
+  const onSubmit = (data: RegisterForm) => {
     form.clearErrors();
     const formData = new FormData();
 
@@ -62,13 +47,23 @@ export default function RegistrationForm() {
     });
   };
 
+  useEffect(() => {
+    if (state?.errors) {
+      Object.entries(state.errors).forEach(([key, message]) => {
+        if (message) {
+          form.setError(key as keyof RegisterForm, { message, type: 'server' });
+        }
+      });
+    }
+  }, [state, form]);
+
   return (
     <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-h-dvh flex items-center justify-center p-2 ">
       <div className="p-8 w-full max-w-116 rounded-xl flex flex-col shadow-paper gap-6 text-center">
         <h1 className="text-center text-2xl font-semibold tracking-tight">Registration</h1>
 
         <form
-          onSubmit={form.handleSubmit((data: RegisterType) => {
+          onSubmit={form.handleSubmit((data: RegisterForm) => {
             onSubmit(data);
           })}
           className="flex flex-col gap-4"

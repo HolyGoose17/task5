@@ -1,5 +1,5 @@
 {
-  "header": {
+    "language": "EN",
     "home": "Home",
     "account": "My Account",
     "mySnippets": "My Snippets",
@@ -15,7 +15,7 @@
     "registration": "Registration",
     "swapAuthReg": "Don't have an account?",
     "swapRegAuth": "Back to authorize",
-    "helloHomePage": "Welcome to main page",
+    "helloHomePage": "Welcome to Codelang!",
     "helloUsersPage": "Welcome in users page",
     "helloSnippetsPage": "Welcome in yours snippets page",
     "helloAddSnippetsPage": "Welcome in post snippets page",
@@ -27,5 +27,4 @@
     "asideTagPostSnippets": "Post Snippets",
     "asideTagQuestion": "Questions",
     "asideTagUsers": "Users"
-  }
 }

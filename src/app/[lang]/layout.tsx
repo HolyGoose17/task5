@@ -1,13 +1,15 @@
 import './globals.css';
-import '../utils/i18n';
+import '../../config/i18n-config';
 
 import type { Metadata } from 'next';
 import { Playfair_Display } from 'next/font/google';
 import { ReactNode } from 'react';
 
-import { getSession } from '../actions/auth';
-import Header from '../features/header/Header';
-import I18nProvider from '../shared/providers/I18nProvider';
+import LanguageSync from '@/src/shared/LanguageSync';
+
+import { getSession } from '../../actions/auth';
+import I18nProvider from '../../config/I18nProvider';
+import Header from '../../features/header/Header';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -20,15 +22,20 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: ReactNode;
+  params: { lang: string };
 }>) {
   const user = await getSession();
 
+  const { lang } = await params;
+
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body className={playfairDisplay.className}>
         <I18nProvider>
+          <LanguageSync lang={lang} />
           <Header user={user} />
           {children}
         </I18nProvider>

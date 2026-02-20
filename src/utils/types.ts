@@ -21,24 +21,70 @@ export const RegisterSchema = z
     path: ['repeatPassword'],
   });
 
-export type RegisterFormType = {
-  username: string;
-  password: string;
-  repeatPassword: string;
-};
+export const AuthResponseSchema = z.object({
+  data: z.object({
+    id: z.string(),
+    username: z.string(),
+    role: z.string(),
+  }),
+  message: z.string(),
+});
 
-export type AuthResponse = {
-  data: {
-    username: string;
-    role: string;
-    id: string;
-  };
-  message: string;
-};
+export const SnippetsSchema = z.object({
+  data: z.object({
+    data: z.array(
+      z.object({
+        id: z.string(),
+        code: z.string(),
+        language: z.string(),
+        marks: z.array(
+          z.object({
+            id: z.string(),
+            type: z.enum(['like', 'dislike']),
+            user: z.object({
+              id: z.string(),
+              username: z.string(),
+              role: z.string(),
+            }),
+          })
+        ),
+      })
+    ),
+  }),
+});
 
-export type RegisterType = z.infer<typeof RegisterSchema>;
+export type AuthResponse = z.infer<typeof AuthResponseSchema>;
+
+export type RegisterForm = z.infer<typeof RegisterSchema>;
+export type AuthForm = z.infer<typeof AuthSchema>;
+
 export type RegisterActionState = {
   auth?: AuthResponse;
-  errors?: Partial<Record<keyof RegisterFormType, string>>;
+  errors?: Partial<Record<keyof RegisterForm, string>>;
   success?: boolean;
 };
+export type AuthActionState = {
+  auth?: AuthResponse;
+  errors?: Partial<Record<keyof AuthForm, string>>;
+  success?: boolean;
+};
+
+export type AuthState = {
+  error?: string;
+  fieldErrors?: {
+    username?: string[];
+    password?: string[];
+  };
+};
+
+export type RegisterState = {
+  error?: string;
+  fieldErrors?: {
+    username?: string[];
+    password?: string[];
+    repeatPassword?: string[];
+  };
+};
+
+export type SnippetsForm = z.infer<typeof SnippetsSchema>;
+export type Snippet = SnippetsForm['data']['data'][number];

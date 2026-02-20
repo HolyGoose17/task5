@@ -1,5 +1,5 @@
 {
-  "header": {
+    "language": "RU",
     "home": "Главная",
     "account": "Мой аккаунт",
     "mySnippets": "Мои сниппеты",
@@ -15,7 +15,7 @@
     "registration": "Регистрация",
     "swapAuthReg": "У Вас нет аккаунта?",
     "swapRegAuth": "Вернуться для авторизации",
-    "helloHomePage": "Добро пожаловать на главную страницу",
+    "helloHomePage": "Добро пожаловать на Codelang!",
     "helloUsersPage": "Добро пожаловать на страницу пользователей",
     "helloSnippetsPage": "Добро пожаловать на страницу Ваших постов",
     "helloAddSnippetsPage": "Добро пожаловать на страницу всех постов",
@@ -27,5 +27,4 @@
     "asideTagPostSnippets": "Создать пост",
     "asideTagQuestion": "Вопросы",
     "asideTagUsers": "Пользователи"
-  }
 }

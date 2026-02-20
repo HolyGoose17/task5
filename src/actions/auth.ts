@@ -5,10 +5,12 @@ import { redirect } from 'next/navigation';
 import z from 'zod';
 
 import {
+  AuthActionState,
+  AuthForm,
   AuthResponse,
   AuthSchema,
   RegisterActionState,
-  RegisterFormType,
+  RegisterForm,
   RegisterSchema,
 } from '@/src/utils/types';
 
@@ -20,47 +22,65 @@ type AuthState = {
   };
 };
 
-// export async function loginAction(data: AuthForm) {
-//   const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(data),
-//     cache: 'no-store',
-//     redirect: 'manual',
-//   });
+export async function loginAction(
+  prevState: AuthActionState,
+  formData: FormData
+): Promise<AuthActionState> {
+  const validated = AuthSchema.safeParse({
+    username: formData.get('username'),
+    password: formData.get('password'),
+  });
 
-//   if (res.status !== 200 && res.status !== 303) {
-//     return { error: `Server error: ${res.status}` };
-//   }
+  if (!validated.success) {
+    const errors: Partial<Record<keyof AuthForm, string>> = {};
 
-//   const setCookieHeader = res.headers.get('set-cookie');
+    for (const issue of validated.error.issues) {
+      const field = issue.path[0];
+      if (field) {
+        errors[field as keyof AuthForm] = issue.message;
+      }
+    }
 
-//   let token = null;
+    return { errors };
+  }
 
-//   if (setCookieHeader) {
-//     const match = setCookieHeader.match(/token=([^;]+)/);
-//     if (match && match[1]) {
-//       token = match[1];
-//     }
-//   }
+  const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(validated.data),
+    // body: JSON.stringify({
+    //   username: validated.data.username,
+    //   password: validated.data.password,
+    // }),
+    cache: 'no-store',
+    redirect: 'manual',
+  });
 
-//   if (!token) {
-//     return { error: 'Token not found in backend response' };
-//   }
+  if (!res.ok) {
+    return {
+      errors: {
+        username: 'Registration failed',
+      },
+    };
+  }
 
-//   const cookieStore = await cookies();
+  const getCookie = res.headers.get('set-cookie');
+  const cookieStore = await cookies();
 
-//   cookieStore.set('token', token, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === 'production',
-//     path: '/',
-//     maxAge: 60 * 60 * 24,
-//     // sameSite: 'lax',
-//   });
+  if (getCookie) {
+    const tokenValue = getCookie.split(';')[0].split('=')[1];
+    cookieStore.set('token', tokenValue, {
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24,
+      httpOnly: true,
+      path: '/',
+    });
+  }
 
-//   redirect('/home');
-// }
+  redirect('/');
+}
 
+// заменить AuthState на AuthActionState - дублирование кода
 export async function testAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
   const rawData = {
     username: formData.get('username'),
@@ -86,7 +106,7 @@ export async function testAction(prevState: AuthState, formData: FormData): Prom
 
   if (!response.ok) {
     return {
-      error: 'Invalidate login or password',
+      error: 'Invalidat login or password',
     };
   }
 
@@ -103,7 +123,7 @@ export async function testAction(prevState: AuthState, formData: FormData): Prom
     });
   }
 
-  redirect('/home');
+  redirect('/');
 }
 
 export async function logoutAction() {
@@ -137,7 +157,7 @@ export async function registerUser(
     const errors: RegisterActionState['errors'] = {};
 
     validated.error.issues.forEach((issue) => {
-      errors![issue.path[0] as keyof RegisterFormType] = issue.message;
+      errors![issue.path[0] as keyof RegisterForm] = issue.message;
     });
 
     return { errors };
@@ -145,10 +165,11 @@ export async function registerUser(
   const response = await fetch(`${process.env.BACKEND_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: validated.data.username,
-      password: validated.data.password,
-    }),
+    body: JSON.stringify(validated.data),
+    // body: JSON.stringify({
+    //   username: validated.data.username,
+    //   password: validated.data.password,
+    // }),
   });
 
   if (!response.ok) {
