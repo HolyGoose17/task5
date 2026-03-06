@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/store/test.store.ts", "src/app/[lang]/(authorize-users)/account/page.jsx"  ],
   "exclude": ["node_modules"]
 }

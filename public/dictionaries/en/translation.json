@@ -2,8 +2,6 @@
     "language": "EN",
     "home": "Home",
     "account": "My Account",
-    "mySnippets": "My Snippets",
-    "postSnippet": "Post Snippets",
     "questions": "Questions",
     "users": "Users",
     "notAuthorized": "Not authorized",
@@ -17,14 +15,30 @@
     "swapRegAuth": "Back to authorize",
     "helloHomePage": "Welcome to Codelang!",
     "helloUsersPage": "Welcome in users page",
-    "helloSnippetsPage": "Welcome in yours snippets page",
-    "helloAddSnippetsPage": "Welcome in post snippets page",
     "helloQuestionsPage": "Welcome in questions page",
     "helloAccountPage": "Welcome in account page",
     "asideTagHome": "Home",
     "asideTagAccount": "My Account",
-    "asideTagMySnippets": "My Snippets",
-    "asideTagPostSnippets": "Post Snippets",
     "asideTagQuestion": "Questions",
-    "asideTagUsers": "Users"
+    "asideTagUsers": "Users",
+    "snippet": {
+        "languageSnippet": "Language of your snippet:",
+        "mySnippets": "My Snippets",
+        "postSnippet": "Post Snippets",
+        "helloSnippetsPage": "Welcome in yours snippets page",
+        "helloAddSnippetsPage": "Create new snippet!",
+        "asideTagMySnippets": "My Snippets",
+        "asideTagPostSnippets": "Post Snippets",
+        "snippetCodeHere": "Code of your snippet:",
+        "addNewSnippet": "Create snippet"
+    },
+    "pagination": {
+        "first": "First",
+        "last": "Last",
+        "prev": "Previous",
+        "next": "Next"
+    },
+    "loading" : {
+        "home": "Please wait a second. Home page is loading."
+    }
 }

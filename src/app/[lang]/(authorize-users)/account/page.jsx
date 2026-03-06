@@ -2,13 +2,14 @@
 
 import { useTranslation } from 'react-i18next';
 
-const PostSnippets = () => {
+const AccountPage = () => {
   const { t } = useTranslation();
+
   return (
     <>
-      <div className="pt-52 text-center">{t('helloAddSnippetsPage')}</div>
+      <div className="pt-52 text-center">{t('helloAccountPage')}</div>
     </>
   );
 };
 
-export default PostSnippets;
+export default AccountPage;

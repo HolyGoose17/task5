@@ -24,11 +24,11 @@ export default function Header({ user }: HeaderProps) {
   const navArray = [
     { href: '/', icon: <FaHome />, label: t('asideTagHome') },
     { href: '/account', icon: <FaRegUserCircle />, label: t('asideTagAccount') },
-    { href: '/snippets', icon: <MdOutlineSnippetFolder />, label: t('asideTagMySnippets') },
+    { href: '/snippets', icon: <MdOutlineSnippetFolder />, label: t('snippet.asideTagMySnippets') },
     {
       href: '/snippets/new',
       icon: <MdOutlineTextSnippet />,
-      label: t('asideTagPostSnippets'),
+      label: t('snippet.asideTagPostSnippets'),
     },
     { href: '/questions', icon: <FcQuestions />, label: t('asideTagQuestion') },
     { href: '/users', icon: <FaUsers />, label: t('asideTagUsers') },
@@ -50,7 +50,6 @@ export default function Header({ user }: HeaderProps) {
   const handleLogout = async () => {
     await logoutAction();
   };
-
   return (
     <>
       <header className="w-full h-16 px-10 flex justify-between items-center fixed top-0 left-0 bg-blue-700 text-white z-50 shadow-md">

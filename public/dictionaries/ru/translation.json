@@ -2,8 +2,6 @@
     "language": "RU",
     "home": "Главная",
     "account": "Мой аккаунт",
-    "mySnippets": "Мои сниппеты",
-    "postSnippet": "Создать сниппет",
     "questions": "Вопросы",
     "users": "Пользователи",
     "notAuthorized": "Вы не авторизованы",
@@ -17,14 +15,30 @@
     "swapRegAuth": "Вернуться для авторизации",
     "helloHomePage": "Добро пожаловать на Codelang!",
     "helloUsersPage": "Добро пожаловать на страницу пользователей",
-    "helloSnippetsPage": "Добро пожаловать на страницу Ваших постов",
-    "helloAddSnippetsPage": "Добро пожаловать на страницу всех постов",
     "helloQuestionsPage": "Добро пожаловать на страницу с вопросами",
     "helloAccountPage": "Добро пожаловать на страницу Ваашего аккаунта",
     "asideTagHome": "Лента постов",
     "asideTagAccount": "Мой аккаунт",
-    "asideTagMySnippets": "Мои посты",
-    "asideTagPostSnippets": "Создать пост",
     "asideTagQuestion": "Вопросы",
-    "asideTagUsers": "Пользователи"
+    "asideTagUsers": "Пользователи",
+    "snippet": {
+        "languageSnippet": "Язык Вашего фрагмента:",
+        "mySnippets": "Мои фрагменты",
+        "postSnippet": "Создать фрагмент",
+        "helloSnippetsPage": "Добро пожаловать на страницу Ваших фрагментов",
+        "helloAddSnippetsPage": "Создать новый фрагмент!",
+        "asideTagMySnippets": "Мои фрагменты",
+        "asideTagPostSnippets": "Создать фрагмент",
+        "snippetCodeHere": "Код Вашего фрагмента:",
+        "addNewSnippet": "Создать фрагмент"
+    },
+    "pagination": {
+        "first": "Первая",
+        "last": "Последняя",
+        "prev": "Предыдущая",
+        "next": "Следующая"
+    },
+        "loading" : {
+        "home": "Пожалуйста, подождите секунду. Страница загружается."
+    }
 }

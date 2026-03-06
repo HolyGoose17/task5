@@ -48,10 +48,60 @@ export const SnippetsSchema = z.object({
             }),
           })
         ),
+        user: z.object({
+          id: z.string(),
+          username: z.string(),
+          role: z.string(),
+        }),
+        comments: z.array(
+          z.object({
+            id: z.string(),
+            content: z.string(),
+          })
+        ),
       })
     ),
+    meta: z.object({
+      itemsPerPage: z.number(),
+      totalItems: z.number(),
+      currentPage: z.number(),
+      totalPages: z.number(),
+      sortBy: z.array(z.tuple([z.string(), z.string()])),
+    }),
+    links: z.object({
+      first: z.string().optional(),
+      previous: z.string().optional(),
+      current: z.string(),
+      next: z.string().optional(),
+      last: z.string().optional(),
+    }),
   }),
 });
+
+export const SnippetsLanguagesSchema = z.object({
+  data: z.array(z.string()),
+});
+
+export const NewSnippetSchema = z.object({
+  code: z.string(),
+  language: z.string(),
+});
+
+export const SnippetResponseSchema = z.object({
+  data: z.object({
+    code: z.string(),
+    language: z.string(),
+    user: z.object({
+      id: z.string(),
+      username: z.string(),
+      role: z.string(),
+    }),
+    id: z.string(),
+  }),
+});
+
+export type NewSnippetForm = z.infer<typeof NewSnippetSchema>;
+export type SnippetResponseForm = z.infer<typeof SnippetResponseSchema>;
 
 export type AuthResponse = z.infer<typeof AuthResponseSchema>;
 
@@ -66,6 +116,11 @@ export type RegisterActionState = {
 export type AuthActionState = {
   auth?: AuthResponse;
   errors?: Partial<Record<keyof AuthForm, string>>;
+  success?: boolean;
+};
+export type NewSnippetActionState = {
+  create?: SnippetResponseForm;
+  errors?: Partial<Record<keyof NewSnippetForm, string>>;
   success?: boolean;
 };
 
@@ -88,3 +143,5 @@ export type RegisterState = {
 
 export type SnippetsForm = z.infer<typeof SnippetsSchema>;
 export type Snippet = SnippetsForm['data']['data'][number];
+
+export type SnippetLanguagesForm = z.infer<typeof SnippetsLanguagesSchema>;
