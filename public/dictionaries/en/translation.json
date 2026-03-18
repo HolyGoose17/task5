@@ -1,4 +1,5 @@
 {
+    "save": "Save",
     "language": "EN",
     "home": "Home",
     "account": "My Account",
@@ -55,5 +56,13 @@
         "questionsCount": "Questions:",
         "correctAnswersCount": "Correct Answers:",
         "regularAnswersCount": "Regular Answers:"
+    },
+    "change": {
+        "oldPassword": "Old password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "newUsername": "New username",
+        "changeUsername": "Change username:",
+        "changePassword": "Change password:"
     }
 }

@@ -1,4 +1,5 @@
 {
+    "save": "Сохранить",
     "language": "RU",
     "home": "Главная",
     "account": "Мой аккаунт",
@@ -55,5 +56,13 @@
         "questionsCount": "Вопросы:",
         "correctAnswersCount": "Корректные Ответы:",
         "regularAnswersCount": "Всего Ответов:"
+    },
+    "change": {
+        "oldPassword": "Старый пароль",
+        "newPassword": "Новый пароль",
+        "confirmPassword": "Подтвердить пароль",
+        "newUsername": "Новое имя пользователя",
+        "changeUsername": "Изменить имя пользователя",
+        "changePassword": "Изменить пароль"
     }
 }

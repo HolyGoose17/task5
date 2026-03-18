@@ -52,16 +52,16 @@ export async function loginAction(
     };
   }
 
-  const getCookie = res.headers.get('set-cookie');
-  const cookieStore = await cookies();
-  const responseData = await res.json();
-  const parsed = AuthResponseSchema.safeParse(responseData);
-  // const saveData = parsed.data?.data;
-  const userId = parsed.data?.data.id;
-  const username = parsed.data?.data.username;
+  // проверить работу set-cookie
+  // const getCookie = res.headers.get('set-cookie');
+  // const cookieStore = await cookies();
+  // const responseData = await res.json();
+  // const parsed = AuthResponseSchema.safeParse(responseData);
+  // const userId = parsed.data?.data.id;
+  // const username = parsed.data?.data.username;
 
-  // if (saveData) {
-  //   cookieStore.set('data', saveData, {
+  // if (username) {
+  //   cookieStore.set('username', username, {
   //     secure: process.env.NODE_ENV === 'production',
   //     maxAge: 60 * 60 * 24,
   //     httpOnly: true,
@@ -69,33 +69,24 @@ export async function loginAction(
   //   });
   // }
 
-  if (username) {
-    cookieStore.set('username', username, {
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24,
-      httpOnly: true,
-      path: '/',
-    });
-  }
+  // if (userId) {
+  //   cookieStore.set('userId', userId, {
+  //     secure: process.env.NODE_ENV === 'production',
+  //     maxAge: 60 * 60 * 24,
+  //     httpOnly: true,
+  //     path: '/',
+  //   });
+  // }
 
-  if (userId) {
-    cookieStore.set('userId', userId, {
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24,
-      httpOnly: true,
-      path: '/',
-    });
-  }
-
-  if (getCookie) {
-    const tokenValue = getCookie.split(';')[0].split('=')[1];
-    cookieStore.set('token', tokenValue, {
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24,
-      httpOnly: true,
-      path: '/',
-    });
-  }
+  // if (getCookie) {
+  //   const tokenValue = getCookie.split(';')[0].split('=')[1];
+  //   cookieStore.set('token', tokenValue, {
+  //     secure: process.env.NODE_ENV === 'production',
+  //     maxAge: 60 * 60 * 24,
+  //     httpOnly: true,
+  //     path: '/',
+  //   });
+  // }
 
   redirect('/');
 }

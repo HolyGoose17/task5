@@ -2,11 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { AiFillDislike, AiFillLike } from 'react-icons/ai';
-import { FaCode, FaComment, FaUser } from 'react-icons/fa';
+import { FaCode, FaUser } from 'react-icons/fa';
 
 import { addReaction } from '@/src/actions/snippets';
-import { PaginationButton } from '@/src/shared/PaginationButton';
+import { FooterSnippet } from '@/src/shared/FooterSnippet';
 import { Snippet, SnippetsForm } from '@/src/utils/types';
 
 type HomePageProps = {
@@ -66,33 +65,14 @@ export default function HomePage({ data }: HomePageProps) {
                 </div>
                 <pre className="p-4 text-sm font-mono overflow-x-auto">{elem.code}</pre>
               </div>
-              <div className="flex items-center justify-between gap-6 px-4 py-3 border-t">
-                <div className="flex items-center gap-6">
-                  <div
-                    onClick={() => handleLike(elem.id)}
-                    className="flex items-center gap-2 text-green-300 cursor-pointer hover:opacity-80"
-                  >
-                    <AiFillLike size={18} />
-                    <span>{likes}</span>
-                  </div>
-                  <div
-                    onClick={() => handleDislike(elem.id)}
-                    className="flex items-center gap-2 text-red-400 cursor-pointer hover:opacity-80"
-                  >
-                    <AiFillDislike size={18} />
-                    <span>{dislikes}</span>
-                  </div>
-                </div>
-                <div
-                  onClick={() => {
-                    handleComments(elem.id);
-                  }}
-                  className="flex items-center gap-2 text-red-400 cursor-pointer hover:opacity-80"
-                >
-                  <FaComment size={18} />
-                  <span>{elem.comments.length}</span>
-                </div>
-              </div>
+              <FooterSnippet
+                likes={likes}
+                dislikes={dislikes}
+                count={elem.comments.length}
+                onLike={() => handleLike(elem.id)}
+                onDislike={() => handleDislike(elem.id)}
+                addComment={() => handleComments(elem.id)}
+              />
             </div>
           );
         })}

@@ -6,22 +6,6 @@ const SUPPORTED_LANGS = ['en', 'ru'];
 const DEFAULT_LANG = 'en';
 
 export function proxy(request: NextRequest) {
-  // const session = request.cookies.get('token')?.value;
-  // const currentPath = request.nextUrl.pathname;
-
-  // const publicRoutes = ['/login', '/registration'];
-
-  // const isOnlyPublicRoute = publicRoutes.includes(currentPath);
-
-  // if (!session && !isOnlyPublicRoute) {
-  //   return NextResponse.redirect(new URL('/login', request.url));
-  // }
-
-  // if (session && isOnlyPublicRoute) {
-  //   return NextResponse.redirect(new URL('/home', request.url));
-  // }
-
-  // return NextResponse.next();
   const { pathname } = request.nextUrl;
   const session = request.cookies.get('token')?.value;
 

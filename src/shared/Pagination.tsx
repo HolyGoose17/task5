@@ -1,24 +1,20 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {
   const { t } = useTranslation();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const currentPage = Number(searchParams.get('page')) || 1;
 
-  const createPageURL = (pageNumber: number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('page', pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
-  };
-
   const handlePageChange = (page: number) => {
-    router.push(createPageURL(page));
+    const params = new URLSearchParams(searchParams);
+    params.set('page', String(page));
+
+    router.push(`?${params.toString()}`);
   };
 
   return (

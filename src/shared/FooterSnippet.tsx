@@ -1,6 +1,15 @@
 import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import { FaComment } from 'react-icons/fa';
 
+interface FooterSnippetProps {
+  likes: number;
+  dislikes: number;
+  count: number;
+  onLike: () => void;
+  onDislike: () => void;
+  addComment: () => void;
+}
+
 export const FooterSnippet = ({
   likes,
   dislikes,
@@ -8,14 +17,7 @@ export const FooterSnippet = ({
   onLike,
   onDislike,
   addComment,
-}: {
-  likes: number;
-  dislikes: number;
-  count: number;
-  onLike: () => void;
-  onDislike: () => void;
-  addComment: () => void;
-}) => {
+}: FooterSnippetProps) => {
   return (
     <div className="flex items-center justify-between gap-6 px-4 py-3 border-t">
       <div className="flex items-center gap-6">

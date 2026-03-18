@@ -2,17 +2,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
 
-export const NavLink = ({
-  href,
-  icon,
-  label,
-  onClick,
-}: {
+interface NavLinkProps {
   href: string;
   icon: ReactNode;
   label: string;
   onClick: () => void;
-}) => {
+}
+
+export const NavLink = ({ href, icon, label, onClick }: NavLinkProps) => {
   const pathname = usePathname();
   const lang = pathname.split('/')[1];
   return (
