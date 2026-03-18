@@ -1,17 +1,21 @@
 'use client';
 
-import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import { FaCode, FaComment, FaUser } from 'react-icons/fa';
 
 import { addReaction } from '@/src/actions/snippets';
-import { useSnippetsStore } from '@/src/store/snippets.store';
-import { Snippet } from '@/src/utils/types';
+import { PaginationButton } from '@/src/shared/PaginationButton';
+import { Snippet, SnippetsForm } from '@/src/utils/types';
 
-export default function HomePage() {
+type HomePageProps = {
+  data: SnippetsForm['data'];
+};
+
+export default function HomePage({ data }: HomePageProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const countMarks = (marks: Snippet['marks']) => {
     return marks.reduce(
       (acc, mark) => {
@@ -23,11 +27,6 @@ export default function HomePage() {
     );
   };
 
-  const { page, meta, isLoading, loadPage, nextPage, prevPage, firstPage, lastPage, pages } =
-    useSnippetsStore();
-
-  const currentData = pages[page]?.data ?? [];
-
   const handleLike = (snippetId: string) => {
     addReaction({ snippetId, type: 'like' });
   };
@@ -35,14 +34,8 @@ export default function HomePage() {
     addReaction({ snippetId, type: 'dislike' });
   };
   const handleComments = (snippetId: string) => {
-    redirect(`/snippets/${snippetId}`);
+    router.push(`/snippets/${snippetId}`);
   };
-
-  useEffect(() => {
-    if (!pages[1]) {
-      loadPage(1);
-    }
-  }, []);
 
   return (
     <div id="newPageRedirect" className="w-full mt-24 flex justify-center flex-col">
@@ -51,7 +44,7 @@ export default function HomePage() {
         <FaCode className="w-14 h-14" />
       </div>
       <div className="mt-6 h-full w-full flex flex-col items-center gap-3">
-        {currentData.map((elem) => {
+        {data.data.map((elem) => {
           const { likes, dislikes } = countMarks(elem.marks);
           return (
             <div
@@ -103,48 +96,6 @@ export default function HomePage() {
             </div>
           );
         })}
-      </div>
-
-      <div className="flex justify-center items-center gap-4 mt-10 mb-20">
-        {meta && (
-          <div className="flex gap-3 justify-center mt-10">
-            <button
-              className="px-4 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300  disabled:bg-gray-200 disabled:text-gray-400  transition cursor-pointer disabled:cursor-not-allowed"
-              onClick={firstPage}
-              disabled={page === 1 || isLoading}
-            >
-              <a href="#newPageRedirect">{t('pagination.first')}</a>
-            </button>
-
-            <button
-              className="px-4 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300  disabled:bg-gray-200 disabled:text-gray-400  transition cursor-pointer disabled:cursor-not-allowed"
-              onClick={prevPage}
-              disabled={page === 1 || isLoading}
-            >
-              <a href="#newPageRedirect">{t('pagination.prev')}</a>
-            </button>
-
-            <span className="px-4 py-2 font-medium text-gray-700 bg-gray-50 rounded-md border">
-              {page} / {meta.totalPages}
-            </span>
-
-            <button
-              className="px-4 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300  disabled:bg-gray-200 disabled:text-gray-400  transition cursor-pointer disabled:cursor-not-allowed"
-              onClick={nextPage}
-              disabled={page >= meta.totalPages || isLoading}
-            >
-              <a href="#newPageRedirect">{t('pagination.next')}</a>
-            </button>
-
-            <button
-              className="px-4 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300  disabled:bg-gray-200 disabled:text-gray-400  transition cursor-pointer disabled:cursor-not-allowed"
-              onClick={lastPage}
-              disabled={page >= meta.totalPages || isLoading}
-            >
-              <a href="#newPageRedirect">{t('pagination.last')}</a>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

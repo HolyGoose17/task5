@@ -1,15 +1,15 @@
-'use client';
+import { cookies } from 'next/headers';
 
-import { useTranslation } from 'react-i18next';
+import { getUserStatistic } from '@/src/actions/user';
+import { UserDetails } from '@/src/features/user/UserDetails';
 
-const AccountPage = () => {
-  const { t } = useTranslation();
+export default async function AccountPage() {
+  const statistic = await getUserStatistic();
+  const username = (await cookies()).get('username').value;
 
   return (
-    <>
-      <div className="pt-52 text-center">{t('helloAccountPage')}</div>
-    </>
+    <main>
+      <UserDetails statistic={statistic} username={username} />
+    </main>
   );
-};
-
-export default AccountPage;
+}

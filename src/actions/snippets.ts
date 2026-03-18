@@ -4,26 +4,27 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import {
+  DataSnippetsSchema,
   NewSnippetForm,
-  NewSnippetSchema,
-  Snippet,
+  PostSnippetSchema,
+  SnippetDetailsForm,
+  SnippetDetailsSchema,
   SnippetLanguagesForm,
   SnippetsForm,
-  SnippetsSchema,
 } from '../utils/types';
 
 export async function fetchSnippets(page?: number, userId?: string): Promise<SnippetsForm['data']> {
   const baseUserId = userId ? `userId=${userId}&` : '';
   const basePage = !page ? 1 : page;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/snippets?${baseUserId}page=${basePage}&limit=15&sortBy=id:ASC`,
+    `${process.env.BACKEND_URL}/api/snippets?${baseUserId}page=${basePage}&limit=15&sortBy=id:ASC`,
     { cache: 'no-store' }
   );
 
   if (!res.ok) throw new Error('Failed to fetch snippets');
 
   const data = await res.json();
-  const validated = SnippetsSchema.safeParse(data);
+  const validated = DataSnippetsSchema.safeParse(data);
   if (!validated.success) {
     console.error(validated.error);
     throw new Error('Data validation failed');
@@ -41,7 +42,7 @@ export async function addReaction({
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/snippets/${snippetId}/mark`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/snippets/${snippetId}/mark`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ export async function getSnippetLanguages(): Promise<SnippetLanguagesForm> {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/snippets/languages`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/snippets/languages`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -77,11 +78,11 @@ export async function getSnippetLanguages(): Promise<SnippetLanguagesForm> {
   return data;
 }
 
-export async function getSnippetDetails(id: string): Promise<Snippet> {
+export async function getSnippetDetails(id: string): Promise<SnippetDetailsForm> {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/snippets/${id}`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/snippets/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -94,11 +95,16 @@ export async function getSnippetDetails(id: string): Promise<Snippet> {
   if (!res.ok) throw new Error('Failed to fetch snippet details');
 
   const data = await res.json();
-  return data;
+  const validated = SnippetDetailsSchema.safeParse(data);
+  if (!validated.success) {
+    console.error(validated.error);
+    throw new Error('Data validation failed');
+  }
+  return validated.data;
 }
 
 export async function addNewSnippet(prevState: unknown, data: NewSnippetForm) {
-  const validated = NewSnippetSchema.safeParse(data);
+  const validated = PostSnippetSchema.safeParse(data);
 
   if (!validated.success) {
     return {
@@ -109,7 +115,7 @@ export async function addNewSnippet(prevState: unknown, data: NewSnippetForm) {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/snippets`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/snippets`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -127,9 +133,4 @@ export async function addNewSnippet(prevState: unknown, data: NewSnippetForm) {
   }
 
   redirect('/');
-
-  // return {
-  //   success: true,
-  //   create: await res.json(),
-  // };
 }

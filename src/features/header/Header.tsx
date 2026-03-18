@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Activity, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaCode, FaHome, FaRegUserCircle, FaUsers } from 'react-icons/fa';
 import { FcQuestions } from 'react-icons/fc';
@@ -15,9 +15,10 @@ import { NavLink } from '../../shared/NavLink';
 
 interface HeaderProps {
   user: boolean | null;
+  username: string;
 }
 
-export default function Header({ user }: HeaderProps) {
+export default function Header({ user, username }: HeaderProps) {
   const { t } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -94,40 +95,33 @@ export default function Header({ user }: HeaderProps) {
         </div>
       </header>
 
-      <aside
-        className={`
-          fixed top-0 left-0 mt-16 h-[calc(100vh-4rem)] w-64 bg-white shadow-xl
-          transform transition-transform duration-300 ease-in-out
-          z-40
-          ${drawerOpen ? 'translate-x-0' : '-translate-x-full'}
-        `}
-      >
-        <div className="flex items-center justify-between px-4 h-14 border-b">
-          <p>{t('menu')}</p>
-          <button
-            className="p-2 hover:bg-gray-100 rounded-full text-gray-600 cursor-pointer"
-            onClick={() => setDrawerOpen(false)}
-          >
-            <FaChevronLeft />
-          </button>
-        </div>
-
-        <nav className="flex flex-col py-4">
-          {navArray.map((page) => (
-            <NavLink
-              key={page.href}
-              href={page.href}
-              icon={page.icon}
-              label={page.label}
+      <Activity mode={drawerOpen ? 'visible' : 'hidden'}>
+        <aside className="fixed top-0 left-0 mt-16 h-dvh w-64 bg-white shadow-xl transform transition-transform duration-800 ease-in-out z-40 transition-discrete">
+          <div className="flex items-center justify-between px-4 h-14 border-b">
+            {/* <p>{t('menu')}</p> */}
+            <p>{username}</p>
+            <button
+              className="p-2 hover:bg-gray-100 rounded-full text-gray-600 cursor-pointer"
               onClick={() => setDrawerOpen(false)}
-            />
-          ))}
-        </nav>
-      </aside>
+            >
+              <FaChevronLeft />
+            </button>
+          </div>
 
-      {drawerOpen && (
+          <nav className="flex flex-col py-4">
+            {navArray.map((page) => (
+              <NavLink
+                key={page.href}
+                href={page.href}
+                icon={page.icon}
+                label={page.label}
+                onClick={() => setDrawerOpen(false)}
+              />
+            ))}
+          </nav>
+        </aside>
         <div className="fixed inset-0 bg-black/50 z-30" onClick={() => setDrawerOpen(false)} />
-      )}
+      </Activity>
     </>
   );
 }

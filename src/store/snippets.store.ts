@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 // import { create } from 'zustand';
 
@@ -76,8 +76,6 @@
 //     await loadPage(meta.totalPages);
 //   },
 // }));
-
-'use client';
 
 import { create } from 'zustand';
 

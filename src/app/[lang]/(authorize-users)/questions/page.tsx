@@ -2,9 +2,11 @@
 
 import { useTranslation } from 'react-i18next';
 
-const QuestionPage = () => {
+export default function QuestionPage() {
   const { t } = useTranslation();
-  return <div className="pt-52 text-center">{t('helloQuestionsPage')}</div>;
-};
-
-export default QuestionPage;
+  return (
+    <>
+      <div className="pt-52 text-center">{t('helloQuestionsPage')}</div>
+    </>
+  );
+}

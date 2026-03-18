@@ -32,6 +32,11 @@
         "snippetCodeHere": "Code of your snippet:",
         "addNewSnippet": "Create snippet"
     },
+    "comments": {
+        "comments": "Comments",
+        "noComments":  "Do not have any comments",
+        "addComment": "Add comment"
+    },
     "pagination": {
         "first": "First",
         "last": "Last",
@@ -40,5 +45,15 @@
     },
     "loading" : {
         "home": "Please wait a second. Home page is loading."
+    },
+    "user": {
+        "rating": "Rating:",
+        "snippetsCount": "Snippets:",
+        "commentsCount": "Comments:",
+        "likesCount": "Likes:",
+        "dislikesCount": "Dislikes:",
+        "questionsCount": "Questions:",
+        "correctAnswersCount": "Correct Answers:",
+        "regularAnswersCount": "Regular Answers:"
     }
 }

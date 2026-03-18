@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { addNewSnippet } from '@/src/actions/snippets';
-import { NewSnippetForm, NewSnippetSchema, SnippetLanguagesForm } from '@/src/utils/types';
+import { NewSnippetForm, PostSnippetSchema, SnippetLanguagesForm } from '@/src/utils/types';
 
 const initialState = {};
 
@@ -18,7 +18,7 @@ export default function CreateSnippet({ languages }: { languages: SnippetLanguag
     handleSubmit,
     formState: { errors },
   } = useForm<NewSnippetForm>({
-    resolver: zodResolver(NewSnippetSchema),
+    resolver: zodResolver(PostSnippetSchema),
   });
 
   const onSubmit = (values: NewSnippetForm) => {
@@ -44,7 +44,7 @@ export default function CreateSnippet({ languages }: { languages: SnippetLanguag
           `}
         >
           <option className="max-w-2/3" value="">
-            Select language
+            ---
           </option>
           {languages.data.map((lang) => (
             <option className="max-w-2/3" key={lang} value={lang}>

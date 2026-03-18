@@ -32,13 +32,28 @@
         "snippetCodeHere": "Код Вашего фрагмента:",
         "addNewSnippet": "Создать фрагмент"
     },
+    "comments": {
+        "comments": "Комментарии",
+        "noComments":  "Комментариев пока нет",
+        "addComment": "Добавить комментарий"
+    },
     "pagination": {
         "first": "Первая",
         "last": "Последняя",
         "prev": "Предыдущая",
         "next": "Следующая"
     },
-        "loading" : {
+    "loading" : {
         "home": "Пожалуйста, подождите секунду. Страница загружается."
+    },
+    "user": {
+        "rating": "Рейтинг:",
+        "snippetsCount": "Фрагменты:",
+        "commentsCount": "Комментарии:",
+        "likesCount": "Лайки:",
+        "dislikesCount": "Дизлайки:",
+        "questionsCount": "Вопросы:",
+        "correctAnswersCount": "Корректные Ответы:",
+        "regularAnswersCount": "Всего Ответов:"
     }
 }

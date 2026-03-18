@@ -36,7 +36,7 @@ export async function loginAction(
     return { errors };
   }
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(validated.data),
@@ -56,7 +56,27 @@ export async function loginAction(
   const cookieStore = await cookies();
   const responseData = await res.json();
   const parsed = AuthResponseSchema.safeParse(responseData);
+  // const saveData = parsed.data?.data;
   const userId = parsed.data?.data.id;
+  const username = parsed.data?.data.username;
+
+  // if (saveData) {
+  //   cookieStore.set('data', saveData, {
+  //     secure: process.env.NODE_ENV === 'production',
+  //     maxAge: 60 * 60 * 24,
+  //     httpOnly: true,
+  //     path: '/',
+  //   });
+  // }
+
+  if (username) {
+    cookieStore.set('username', username, {
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24,
+      httpOnly: true,
+      path: '/',
+    });
+  }
 
   if (userId) {
     cookieStore.set('userId', userId, {
@@ -84,6 +104,7 @@ export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete('token');
   cookieStore.delete('userId');
+  cookieStore.delete('username');
   redirect('/login');
 }
 
@@ -95,6 +116,16 @@ export async function getSession() {
     return sessionCookie;
   } else {
     return null;
+  }
+}
+export async function getUsername() {
+  const cookieStore = await cookies();
+  const username = cookieStore.get('username');
+
+  if (username) {
+    return username.value;
+  } else {
+    return '';
   }
 }
 
@@ -117,7 +148,7 @@ export async function registerUser(
 
     return { errors };
   }
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, {
+  const response = await fetch(`${process.env.BACKEND_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(validated.data),
